@@ -17,6 +17,7 @@ import com.wavemaker.runtime.data.model.AggregationInfo;
 import com.wavemaker.runtime.file.model.Downloadable;
 
 import com.nrd.services.Employee;
+import com.nrd.services.TreeEnumerations;
 
 /**
  * Service object for domain model class {@link Employee}.
@@ -140,6 +141,17 @@ public interface EmployeeService {
 	 */
 	Page<Map<String, Object>> getAggregatedValues(AggregationInfo aggregationInfo, Pageable pageable);
 
+    /*
+     * Returns the associated treeEnumerationses for given Employee id.
+     *
+     * @param employeeName value of employeeName; value cannot be null
+     * @param pageable Details of the pagination information along with the sorting options. If null returns all matching records.
+     * @return Paginated list of associated TreeEnumerations instances.
+     *
+     * @see Pageable
+     * @see Page
+     */
+    Page<TreeEnumerations> findAssociatedTreeEnumerationses(String employeeName, Pageable pageable);
 
 }
 

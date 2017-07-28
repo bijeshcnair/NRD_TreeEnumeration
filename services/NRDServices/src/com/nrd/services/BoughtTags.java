@@ -10,7 +10,9 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
 /**
@@ -26,6 +28,7 @@ public class BoughtTags implements Serializable {
     private String usedFor;
     private String comment;
     private String error;
+    private Trees trees;
 
     @Id
     @Column(name = "`Tag`", nullable = false, length = 15)
@@ -82,6 +85,14 @@ public class BoughtTags implements Serializable {
         this.error = error;
     }
 
+    @OneToOne(fetch = FetchType.EAGER, mappedBy = "boughtTags")
+    public Trees getTrees() {
+        return this.trees;
+    }
+
+    public void setTrees(Trees trees) {
+        this.trees = trees;
+    }
 
     @Override
     public boolean equals(Object o) {

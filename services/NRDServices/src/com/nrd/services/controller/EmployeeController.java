@@ -33,6 +33,7 @@ import com.wordnik.swagger.annotations.ApiOperation;
 import com.wordnik.swagger.annotations.ApiParam;
 
 import com.nrd.services.Employee;
+import com.nrd.services.TreeEnumerations;
 import com.nrd.services.service.EmployeeService;
 
 
@@ -151,6 +152,14 @@ public class EmployeeController {
         return employeeService.getAggregatedValues(aggregationInfo, pageable);
     }
 
+    @RequestMapping(value="/{id:.+}/treeEnumerationses", method=RequestMethod.GET)
+    @ApiOperation(value = "Gets the treeEnumerationses instance associated with the given id.")
+    @WMAccessVisibility(value = AccessSpecifier.APP_ONLY)
+    public Page<TreeEnumerations> findAssociatedTreeEnumerationses(@PathVariable("id") String id, Pageable pageable) {
+
+        LOGGER.debug("Fetching all associated treeEnumerationses");
+        return employeeService.findAssociatedTreeEnumerationses(id, pageable);
+    }
 
     /**
 	 * This setter method should only be used by unit tests

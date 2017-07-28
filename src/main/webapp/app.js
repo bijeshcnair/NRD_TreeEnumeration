@@ -4,7 +4,7 @@ Application.run(function ($rootScope) {
     $rootScope.onAppVariablesReady = function () {
         /*
          * variables can be accessed through '$rootScope.Variables' property here
-         * e.g. $rootScope.Variables.staticVariable1.getData()
+         * e.g. $rootScope.Variables.gridVariables.getData()
          */
     };
 

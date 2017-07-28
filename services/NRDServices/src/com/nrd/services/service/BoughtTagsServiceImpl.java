@@ -24,6 +24,7 @@ import com.wavemaker.runtime.data.model.AggregationInfo;
 import com.wavemaker.runtime.file.model.Downloadable;
 
 import com.nrd.services.BoughtTags;
+import com.nrd.services.Trees;
 
 
 /**
@@ -36,6 +37,9 @@ public class BoughtTagsServiceImpl implements BoughtTagsService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(BoughtTagsServiceImpl.class);
 
+    @Autowired
+	@Qualifier("NRDServices.TreesService")
+	private TreesService treesService;
 
     @Autowired
     @Qualifier("NRDServices.BoughtTagsDao")
@@ -50,6 +54,12 @@ public class BoughtTagsServiceImpl implements BoughtTagsService {
 	public BoughtTags create(BoughtTags boughtTags) {
         LOGGER.debug("Creating a new BoughtTags with information: {}", boughtTags);
         BoughtTags boughtTagsCreated = this.wmGenericDao.create(boughtTags);
+        if(boughtTagsCreated.getTrees() != null) {
+            Trees trees = boughtTagsCreated.getTrees();
+            LOGGER.debug("Creating a new child Trees with information: {}", trees);
+            trees.setBoughtTags(boughtTagsCreated);
+            treesService.create(trees);
+        }
         return boughtTagsCreated;
     }
 
@@ -131,6 +141,14 @@ public class BoughtTagsServiceImpl implements BoughtTagsService {
     }
 
 
+    /**
+	 * This setter method should only be used by unit tests
+	 *
+	 * @param service TreesService instance
+	 */
+	protected void setTreesService(TreesService service) {
+        this.treesService = service;
+    }
 
 }
 

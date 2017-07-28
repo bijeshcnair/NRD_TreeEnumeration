@@ -11,7 +11,10 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import com.wavemaker.runtime.data.annotations.ServerDefinedProperty;
@@ -29,7 +32,7 @@ public class TreeEnumerations implements Serializable {
     private String specieCode;
     private Date enumerationDate;
     private String enumerationType;
-    private String scanningOpsManager;
+    private String scanningPerson;
     private String block;
     private Long estimatedHeight;
     private Long estimatedDiameter;
@@ -41,6 +44,8 @@ public class TreeEnumerations implements Serializable {
     private Date modifiedDate;
     @ServerDefinedProperty( value = VariableType.USER_NAME, scopes = { Scope.INSERT, Scope.UPDATE })
     private String modifiedBy;
+    private TreeSpecies treeSpecies;
+    private Employee employee;
 
     @Id
     @Column(name = "`treeTag`", nullable = false, length = 15)
@@ -79,13 +84,13 @@ public class TreeEnumerations implements Serializable {
         this.enumerationType = enumerationType;
     }
 
-    @Column(name = "`Scanning OpsManager`", nullable = true, length = 255)
-    public String getScanningOpsManager() {
-        return this.scanningOpsManager;
+    @Column(name = "`ScanningPerson`", nullable = true, length = 255)
+    public String getScanningPerson() {
+        return this.scanningPerson;
     }
 
-    public void setScanningOpsManager(String scanningOpsManager) {
-        this.scanningOpsManager = scanningOpsManager;
+    public void setScanningPerson(String scanningPerson) {
+        this.scanningPerson = scanningPerson;
     }
 
     @Column(name = "`Block`", nullable = true, length = 255)
@@ -169,6 +174,33 @@ public class TreeEnumerations implements Serializable {
         this.modifiedBy = modifiedBy;
     }
 
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "`SpecieCode`", referencedColumnName = "`SpecieCode`", insertable = false, updatable = false)
+    public TreeSpecies getTreeSpecies() {
+        return this.treeSpecies;
+    }
+
+    public void setTreeSpecies(TreeSpecies treeSpecies) {
+        if(treeSpecies != null) {
+            this.specieCode = treeSpecies.getSpecieCode();
+        }
+
+        this.treeSpecies = treeSpecies;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "`ScanningPerson`", referencedColumnName = "`EmployeeName`", insertable = false, updatable = false)
+    public Employee getEmployee() {
+        return this.employee;
+    }
+
+    public void setEmployee(Employee employee) {
+        if(employee != null) {
+            this.scanningPerson = employee.getEmployeeName();
+        }
+
+        this.employee = employee;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -1,20 +1,4 @@
 {
-  "appNotification" : {
-    "_id" : "wm-appErrorHandler-wm.NotificationVariable-1454664620943",
-    "name" : "appNotification",
-    "owner" : "App",
-    "category" : "wm.NotificationVariable",
-    "dataBinding" : [ {
-    "target" : "class",
-    "value" : "Error",
-    "type" : "list"
-    }, {
-    "target" : "toasterPosition",
-    "value" : "bottom right",
-    "type" : "list"
-    } ],
-    "operation" : "toast"
-  },
   "appInfo" : {
     "_id" : "wm-getAppInfo-wm.DeviceVariable-1444134876543",
     "name" : "appInfo",
@@ -28,6 +12,22 @@
       "cordovaversion" : "X.X.X"
     },
     "startUpdate" : true
+  },
+  "appNotification" : {
+    "_id" : "wm-appErrorHandler-wm.NotificationVariable-1454664620943",
+    "name" : "appNotification",
+    "owner" : "App",
+    "category" : "wm.NotificationVariable",
+    "dataBinding" : [ {
+      "target" : "class",
+      "value" : "Error",
+      "type" : "list"
+    }, {
+      "target" : "toasterPosition",
+      "value" : "bottom right",
+      "type" : "list"
+    } ],
+    "operation" : "toast"
   },
   "deviceInfo" : {
     "_id" : "wm-deviceInfo-getDeviceInfo-wm.DeviceVariable-1444134852623",
@@ -53,6 +53,102 @@
     "category" : "wm.NavigationVariable",
     "operation" : "gotoPage",
     "pageName" : "Main"
+  },
+  "goToPage_TreeEnumeration" : {
+    "_id" : "wm-goToPage_TreeEnumeration-wm.NavigationVariable-1501168341730",
+    "name" : "goToPage_TreeEnumeration",
+    "owner" : "App",
+    "category" : "wm.NavigationVariable",
+    "dataBinding" : [ ],
+    "operation" : "gotoPage",
+    "pageName" : "TreeEnumeration",
+    "dataSet" : [ ],
+    "pageTransitions" : "none"
+  },
+  "gridVariables" : {
+    "_id" : "wm-staticVariable1-wm.Variable-1501167450177",
+    "name" : "gridVariables",
+    "owner" : "App",
+    "category" : "wm.Variable",
+    "dataBinding" : [ ],
+    "dataSet" : [ {
+      "dataValue" : "Tree Enumeration",
+      "image" : "https://image.flaticon.com/icons/svg/41/41462.svg"
+    }, {
+      "dataValue" : "Long Log Arrival",
+      "image" : "https://thumb1.shutterstock.com/display_pic_with_logo/1537223/360271856/stock-vector-wood-logs-illustration-360271856.jpg"
+    }, {
+      "dataValue" : "Tree Felling",
+      "image" : "https://cdn0.iconfinder.com/data/icons/public-sign-part04/100/_-84-512.png"
+    }, {
+      "dataValue" : "Trucking logs",
+      "image" : "https://cdn3.iconfinder.com/data/icons/transportation-outline-2/512/41-512.png"
+    } ],
+    "type" : "string",
+    "isList" : true,
+    "saveInPhonegap" : false
+  },
+  "loggedInUser" : {
+    "_id" : "wm-loggedInUser-wm.Variable-1501167265734",
+    "name" : "loggedInUser",
+    "owner" : "App",
+    "category" : "wm.Variable",
+    "dataBinding" : [ ],
+    "dataSet" : {
+      "name" : "",
+      "id" : "",
+      "tenantId" : "",
+      "isAuthenticated" : false,
+      "isSecurityEnabled" : true,
+      "roles" : [ ]
+    },
+    "type" : "string",
+    "isList" : false,
+    "saveInPhonegap" : false
+  },
+  "loginVariable" : {
+    "_id" : "wm-loginVariable-wm.LoginVariable-1501167265733",
+    "name" : "loginVariable",
+    "owner" : "App",
+    "category" : "wm.LoginVariable",
+    "dataBinding" : [ {
+      "target" : "username",
+      "value" : "bind:Widgets.usernametext.datavalue",
+      "type" : "string"
+    }, {
+      "target" : "password",
+      "value" : "bind:Widgets.passwordtext.datavalue",
+      "type" : "string"
+    }, {
+      "target" : "rememberme",
+      "value" : "bind:Widgets.remembermecheck.datavalue",
+      "type" : "boolean"
+    } ],
+    "dataSet" : {
+      "username" : "",
+      "password" : "",
+      "rememberme" : false
+    },
+    "type" : "string",
+    "saveInPhonegap" : false,
+    "onError" : "loginVariableonError($event, $s)",
+    "startUpdate" : false,
+    "autoUpdate" : false,
+    "inFlightBehavior" : "executeLast",
+    "transformationRequired" : false,
+    "useDefaultSuccessHandler" : true
+  },
+  "logoutVariable" : {
+    "_id" : "wm-logoutVariable-wm.LogoutVariable-1501167265733",
+    "name" : "logoutVariable",
+    "owner" : "App",
+    "category" : "wm.LogoutVariable",
+    "type" : "string",
+    "saveInPhonegap" : false,
+    "inFlightBehavior" : "executeLast",
+    "transformationRequired" : false,
+    "redirectTo" : "Login",
+    "useDefaultSuccessHandler" : true
   },
   "supportedLocale" : {
     "_id" : "wm-wm.Variable1402640443182",

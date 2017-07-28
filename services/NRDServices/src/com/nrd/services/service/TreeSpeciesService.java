@@ -16,7 +16,9 @@ import com.wavemaker.runtime.data.expression.QueryFilter;
 import com.wavemaker.runtime.data.model.AggregationInfo;
 import com.wavemaker.runtime.file.model.Downloadable;
 
+import com.nrd.services.TreeEnumerations;
 import com.nrd.services.TreeSpecies;
+import com.nrd.services.Trees;
 
 /**
  * Service object for domain model class {@link TreeSpecies}.
@@ -140,6 +142,29 @@ public interface TreeSpeciesService {
 	 */
 	Page<Map<String, Object>> getAggregatedValues(AggregationInfo aggregationInfo, Pageable pageable);
 
+    /*
+     * Returns the associated treeEnumerationses for given TreeSpecies id.
+     *
+     * @param specieCode value of specieCode; value cannot be null
+     * @param pageable Details of the pagination information along with the sorting options. If null returns all matching records.
+     * @return Paginated list of associated TreeEnumerations instances.
+     *
+     * @see Pageable
+     * @see Page
+     */
+    Page<TreeEnumerations> findAssociatedTreeEnumerationses(String specieCode, Pageable pageable);
+
+    /*
+     * Returns the associated treeses for given TreeSpecies id.
+     *
+     * @param specieCode value of specieCode; value cannot be null
+     * @param pageable Details of the pagination information along with the sorting options. If null returns all matching records.
+     * @return Paginated list of associated Trees instances.
+     *
+     * @see Pageable
+     * @see Page
+     */
+    Page<Trees> findAssociatedTreeses(String specieCode, Pageable pageable);
 
 }
 

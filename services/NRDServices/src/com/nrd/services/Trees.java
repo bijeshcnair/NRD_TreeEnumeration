@@ -11,9 +11,17 @@ import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
+import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToOne;
+import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
 
+import org.hibernate.annotations.GenericGenerator;
+import org.hibernate.annotations.Parameter;
 import org.hibernate.annotations.Type;
 import org.joda.time.LocalDateTime;
 
@@ -42,9 +50,14 @@ public class Trees implements Serializable {
     private Date modifiedDate;
     @ServerDefinedProperty( value = VariableType.USER_NAME, scopes = { Scope.INSERT, Scope.UPDATE })
     private String modifiedBy;
+    private BoughtTags boughtTags;
+    private TreeSpecies treeSpecies;
 
     @Id
-    @Column(name = "`TreeTag`", nullable = false, length = 255)
+    @GenericGenerator(name = "generator", strategy = "foreign", 
+            parameters = @Parameter(name = "property", value = "boughtTags"))
+    @GeneratedValue(generator = "generator")
+    @Column(name = "`TreeTag`", nullable = false, insertable = false, updatable = false, length = 255)
     public String getTreeTag() {
         return this.treeTag;
     }
@@ -143,6 +156,33 @@ public class Trees implements Serializable {
         this.modifiedBy = modifiedBy;
     }
 
+    @OneToOne(fetch = FetchType.EAGER)
+    @PrimaryKeyJoinColumn
+    public BoughtTags getBoughtTags() {
+        return this.boughtTags;
+    }
+
+    public void setBoughtTags(BoughtTags boughtTags) {
+        if(boughtTags != null) {
+            this.treeTag = boughtTags.getTag();
+        }
+
+        this.boughtTags = boughtTags;
+    }
+
+    @ManyToOne(fetch = FetchType.EAGER)
+    @JoinColumn(name = "`SpecieCode`", referencedColumnName = "`SpecieCode`", insertable = false, updatable = false)
+    public TreeSpecies getTreeSpecies() {
+        return this.treeSpecies;
+    }
+
+    public void setTreeSpecies(TreeSpecies treeSpecies) {
+        if(treeSpecies != null) {
+            this.specieCode = treeSpecies.getSpecieCode();
+        }
+
+        this.treeSpecies = treeSpecies;
+    }
 
     @Override
     public boolean equals(Object o) {

@@ -21,7 +21,7 @@
       "name" : "Tag",
       "nullable" : false,
       "oldName" : "Tag",
-      "partOfAnyRelation" : false,
+      "partOfAnyRelation" : true,
       "partOfForeignKey" : false,
       "partOfPrimaryKey" : true,
       "partOfUniqueKey" : true,
@@ -178,7 +178,24 @@
       "name" : "PRIMARY",
       "virtual" : false
     },
-    "relations" : [ ],
+    "relations" : [ {
+      "cardinality" : "OneToOne",
+      "columnsUniqueKey" : false,
+      "composite" : false,
+      "fieldName" : "trees",
+      "mappings" : [ {
+        "sourceColumn" : "Tag",
+        "targetColumn" : "TreeTag"
+      } ],
+      "name" : "FK_Trees_TO_BoughtTags_TnpH17",
+      "primary" : false,
+      "selfRelation" : false,
+      "sourceColumnsNotUniqueKey" : true,
+      "sourceTable" : "BoughtTags",
+      "targetColumnsUniqueKey" : false,
+      "targetTable" : "Trees",
+      "virtual" : false
+    } ],
     "schema" : null,
     "type" : "TABLE"
   }, {
@@ -199,7 +216,7 @@
       "name" : "EmployeeName",
       "nullable" : false,
       "oldName" : "EmployeeName",
-      "partOfAnyRelation" : false,
+      "partOfAnyRelation" : true,
       "partOfForeignKey" : false,
       "partOfPrimaryKey" : true,
       "partOfUniqueKey" : true,
@@ -252,7 +269,24 @@
       "name" : "PRIMARY",
       "virtual" : false
     },
-    "relations" : [ ],
+    "relations" : [ {
+      "cardinality" : "OneToMany",
+      "columnsUniqueKey" : false,
+      "composite" : false,
+      "fieldName" : "treeEnumerationses",
+      "mappings" : [ {
+        "sourceColumn" : "EmployeeName",
+        "targetColumn" : "ScanningPerson"
+      } ],
+      "name" : "FK_TreeEnumerations_TO_ENzXeL",
+      "primary" : false,
+      "selfRelation" : false,
+      "sourceColumnsNotUniqueKey" : true,
+      "sourceTable" : "Employee",
+      "targetColumnsUniqueKey" : false,
+      "targetTable" : "TreeEnumerations",
+      "virtual" : false
+    } ],
     "schema" : null,
     "type" : "TABLE"
   }, {
@@ -291,7 +325,7 @@
         "defaultValue" : ""
       },
       "fieldName" : "specieCode",
-      "foreignKey" : false,
+      "foreignKey" : true,
       "generatorType" : "assigned",
       "generatorValue" : null,
       "javaType" : "string",
@@ -299,8 +333,8 @@
       "name" : "SpecieCode",
       "nullable" : false,
       "oldName" : "SpecieCode",
-      "partOfAnyRelation" : false,
-      "partOfForeignKey" : false,
+      "partOfAnyRelation" : true,
+      "partOfForeignKey" : true,
       "partOfPrimaryKey" : false,
       "partOfUniqueKey" : false,
       "precision" : 0,
@@ -368,17 +402,17 @@
         "updatable" : true,
         "defaultValue" : ""
       },
-      "fieldName" : "scanningOpsManager",
-      "foreignKey" : false,
+      "fieldName" : "scanningPerson",
+      "foreignKey" : true,
       "generatorType" : "assigned",
       "generatorValue" : null,
       "javaType" : "string",
       "length" : 255,
-      "name" : "Scanning OpsManager",
+      "name" : "ScanningPerson",
       "nullable" : true,
-      "oldName" : "Scanning OpsManager",
-      "partOfAnyRelation" : false,
-      "partOfForeignKey" : false,
+      "oldName" : "ScanningPerson",
+      "partOfAnyRelation" : true,
+      "partOfForeignKey" : true,
       "partOfPrimaryKey" : false,
       "partOfUniqueKey" : false,
       "precision" : 0,
@@ -638,7 +672,41 @@
       "name" : "PRIMARY",
       "virtual" : false
     },
-    "relations" : [ ],
+    "relations" : [ {
+      "cardinality" : "ManyToOne",
+      "columnsUniqueKey" : false,
+      "composite" : false,
+      "fieldName" : "treeSpecies",
+      "mappings" : [ {
+        "sourceColumn" : "SpecieCode",
+        "targetColumn" : "SpecieCode"
+      } ],
+      "name" : "FK_TreeEnumerations_TO_TX1q6G",
+      "primary" : true,
+      "selfRelation" : false,
+      "sourceColumnsNotUniqueKey" : true,
+      "sourceTable" : "TreeEnumerations",
+      "targetColumnsUniqueKey" : false,
+      "targetTable" : "TreeSpecies",
+      "virtual" : false
+    }, {
+      "cardinality" : "ManyToOne",
+      "columnsUniqueKey" : false,
+      "composite" : false,
+      "fieldName" : "employee",
+      "mappings" : [ {
+        "sourceColumn" : "ScanningPerson",
+        "targetColumn" : "EmployeeName"
+      } ],
+      "name" : "FK_TreeEnumerations_TO_ENzXeL",
+      "primary" : true,
+      "selfRelation" : false,
+      "sourceColumnsNotUniqueKey" : true,
+      "sourceTable" : "TreeEnumerations",
+      "targetColumnsUniqueKey" : false,
+      "targetTable" : "Employee",
+      "virtual" : false
+    } ],
     "schema" : null,
     "type" : "TABLE"
   }, {
@@ -659,7 +727,7 @@
       "name" : "SpecieCode",
       "nullable" : false,
       "oldName" : "SpecieCode",
-      "partOfAnyRelation" : false,
+      "partOfAnyRelation" : true,
       "partOfForeignKey" : false,
       "partOfPrimaryKey" : true,
       "partOfUniqueKey" : true,
@@ -738,7 +806,41 @@
       "name" : "PRIMARY",
       "virtual" : false
     },
-    "relations" : [ ],
+    "relations" : [ {
+      "cardinality" : "OneToMany",
+      "columnsUniqueKey" : false,
+      "composite" : false,
+      "fieldName" : "treeEnumerationses",
+      "mappings" : [ {
+        "sourceColumn" : "SpecieCode",
+        "targetColumn" : "SpecieCode"
+      } ],
+      "name" : "FK_TreeEnumerations_TO_TX1q6G",
+      "primary" : false,
+      "selfRelation" : false,
+      "sourceColumnsNotUniqueKey" : true,
+      "sourceTable" : "TreeSpecies",
+      "targetColumnsUniqueKey" : false,
+      "targetTable" : "TreeEnumerations",
+      "virtual" : false
+    }, {
+      "cardinality" : "OneToMany",
+      "columnsUniqueKey" : false,
+      "composite" : false,
+      "fieldName" : "treeses",
+      "mappings" : [ {
+        "sourceColumn" : "SpecieCode",
+        "targetColumn" : "SpecieCode"
+      } ],
+      "name" : "FK_Trees_TO_TreeSpecies_hIv88",
+      "primary" : false,
+      "selfRelation" : false,
+      "sourceColumnsNotUniqueKey" : true,
+      "sourceTable" : "TreeSpecies",
+      "targetColumnsUniqueKey" : false,
+      "targetTable" : "Trees",
+      "virtual" : false
+    } ],
     "schema" : null,
     "type" : "TABLE"
   }, {
@@ -751,7 +853,7 @@
         "defaultValue" : ""
       },
       "fieldName" : "treeTag",
-      "foreignKey" : false,
+      "foreignKey" : true,
       "generatorType" : "assigned",
       "generatorValue" : null,
       "javaType" : "string",
@@ -759,8 +861,8 @@
       "name" : "TreeTag",
       "nullable" : false,
       "oldName" : "TreeTag",
-      "partOfAnyRelation" : false,
-      "partOfForeignKey" : false,
+      "partOfAnyRelation" : true,
+      "partOfForeignKey" : true,
       "partOfPrimaryKey" : true,
       "partOfUniqueKey" : true,
       "precision" : 0,
@@ -777,7 +879,7 @@
         "defaultValue" : ""
       },
       "fieldName" : "specieCode",
-      "foreignKey" : false,
+      "foreignKey" : true,
       "generatorType" : "assigned",
       "generatorValue" : null,
       "javaType" : "string",
@@ -785,8 +887,8 @@
       "name" : "SpecieCode",
       "nullable" : true,
       "oldName" : "SpecieCode",
-      "partOfAnyRelation" : false,
-      "partOfForeignKey" : false,
+      "partOfAnyRelation" : true,
+      "partOfForeignKey" : true,
       "partOfPrimaryKey" : false,
       "partOfUniqueKey" : false,
       "precision" : 0,
@@ -1046,7 +1148,41 @@
       "name" : "PRIMARY",
       "virtual" : false
     },
-    "relations" : [ ],
+    "relations" : [ {
+      "cardinality" : "OneToOne",
+      "columnsUniqueKey" : false,
+      "composite" : false,
+      "fieldName" : "boughtTags",
+      "mappings" : [ {
+        "sourceColumn" : "TreeTag",
+        "targetColumn" : "Tag"
+      } ],
+      "name" : "FK_Trees_TO_BoughtTags_TnpH17",
+      "primary" : true,
+      "selfRelation" : false,
+      "sourceColumnsNotUniqueKey" : true,
+      "sourceTable" : "Trees",
+      "targetColumnsUniqueKey" : false,
+      "targetTable" : "BoughtTags",
+      "virtual" : false
+    }, {
+      "cardinality" : "ManyToOne",
+      "columnsUniqueKey" : false,
+      "composite" : false,
+      "fieldName" : "treeSpecies",
+      "mappings" : [ {
+        "sourceColumn" : "SpecieCode",
+        "targetColumn" : "SpecieCode"
+      } ],
+      "name" : "FK_Trees_TO_TreeSpecies_hIv88",
+      "primary" : true,
+      "selfRelation" : false,
+      "sourceColumnsNotUniqueKey" : true,
+      "sourceTable" : "Trees",
+      "targetColumnsUniqueKey" : false,
+      "targetTable" : "TreeSpecies",
+      "virtual" : false
+    } ],
     "schema" : null,
     "type" : "TABLE"
   } ]

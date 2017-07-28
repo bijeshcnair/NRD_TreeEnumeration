@@ -24,6 +24,7 @@ import com.wavemaker.runtime.data.model.AggregationInfo;
 import com.wavemaker.runtime.file.model.Downloadable;
 
 import com.nrd.services.Employee;
+import com.nrd.services.TreeEnumerations;
 
 
 /**
@@ -36,6 +37,9 @@ public class EmployeeServiceImpl implements EmployeeService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(EmployeeServiceImpl.class);
 
+    @Autowired
+	@Qualifier("NRDServices.TreeEnumerationsService")
+	private TreeEnumerationsService treeEnumerationsService;
 
     @Autowired
     @Qualifier("NRDServices.EmployeeDao")
@@ -50,6 +54,13 @@ public class EmployeeServiceImpl implements EmployeeService {
 	public Employee create(Employee employee) {
         LOGGER.debug("Creating a new Employee with information: {}", employee);
         Employee employeeCreated = this.wmGenericDao.create(employee);
+        if(employeeCreated.getTreeEnumerationses() != null) {
+            for(TreeEnumerations treeEnumerationse : employeeCreated.getTreeEnumerationses()) {
+                treeEnumerationse.setEmployee(employeeCreated);
+                LOGGER.debug("Creating a new child TreeEnumerations with information: {}", treeEnumerationse);
+                treeEnumerationsService.create(treeEnumerationse);
+            }
+        }
         return employeeCreated;
     }
 
@@ -130,7 +141,25 @@ public class EmployeeServiceImpl implements EmployeeService {
         return this.wmGenericDao.getAggregatedValues(aggregationInfo, pageable);
     }
 
+    @Transactional(readOnly = true, value = "NRDServicesTransactionManager")
+    @Override
+    public Page<TreeEnumerations> findAssociatedTreeEnumerationses(String employeeName, Pageable pageable) {
+        LOGGER.debug("Fetching all associated treeEnumerationses");
 
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("employee.employeeName = '" + employeeName + "'");
+
+        return treeEnumerationsService.findAll(queryBuilder.toString(), pageable);
+    }
+
+    /**
+	 * This setter method should only be used by unit tests
+	 *
+	 * @param service TreeEnumerationsService instance
+	 */
+	protected void setTreeEnumerationsService(TreeEnumerationsService service) {
+        this.treeEnumerationsService = service;
+    }
 
 }
 

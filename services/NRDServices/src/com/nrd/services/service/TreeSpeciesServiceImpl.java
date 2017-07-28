@@ -23,7 +23,9 @@ import com.wavemaker.runtime.data.expression.QueryFilter;
 import com.wavemaker.runtime.data.model.AggregationInfo;
 import com.wavemaker.runtime.file.model.Downloadable;
 
+import com.nrd.services.TreeEnumerations;
 import com.nrd.services.TreeSpecies;
+import com.nrd.services.Trees;
 
 
 /**
@@ -36,6 +38,13 @@ public class TreeSpeciesServiceImpl implements TreeSpeciesService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(TreeSpeciesServiceImpl.class);
 
+    @Autowired
+	@Qualifier("NRDServices.TreesService")
+	private TreesService treesService;
+
+    @Autowired
+	@Qualifier("NRDServices.TreeEnumerationsService")
+	private TreeEnumerationsService treeEnumerationsService;
 
     @Autowired
     @Qualifier("NRDServices.TreeSpeciesDao")
@@ -50,6 +59,21 @@ public class TreeSpeciesServiceImpl implements TreeSpeciesService {
 	public TreeSpecies create(TreeSpecies treeSpecies) {
         LOGGER.debug("Creating a new TreeSpecies with information: {}", treeSpecies);
         TreeSpecies treeSpeciesCreated = this.wmGenericDao.create(treeSpecies);
+        if(treeSpeciesCreated.getTreeEnumerationses() != null) {
+            for(TreeEnumerations treeEnumerationse : treeSpeciesCreated.getTreeEnumerationses()) {
+                treeEnumerationse.setTreeSpecies(treeSpeciesCreated);
+                LOGGER.debug("Creating a new child TreeEnumerations with information: {}", treeEnumerationse);
+                treeEnumerationsService.create(treeEnumerationse);
+            }
+        }
+
+        if(treeSpeciesCreated.getTreeses() != null) {
+            for(Trees treese : treeSpeciesCreated.getTreeses()) {
+                treese.setTreeSpecies(treeSpeciesCreated);
+                LOGGER.debug("Creating a new child Trees with information: {}", treese);
+                treesService.create(treese);
+            }
+        }
         return treeSpeciesCreated;
     }
 
@@ -130,7 +154,45 @@ public class TreeSpeciesServiceImpl implements TreeSpeciesService {
         return this.wmGenericDao.getAggregatedValues(aggregationInfo, pageable);
     }
 
+    @Transactional(readOnly = true, value = "NRDServicesTransactionManager")
+    @Override
+    public Page<TreeEnumerations> findAssociatedTreeEnumerationses(String specieCode, Pageable pageable) {
+        LOGGER.debug("Fetching all associated treeEnumerationses");
 
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("treeSpecies.specieCode = '" + specieCode + "'");
+
+        return treeEnumerationsService.findAll(queryBuilder.toString(), pageable);
+    }
+
+    @Transactional(readOnly = true, value = "NRDServicesTransactionManager")
+    @Override
+    public Page<Trees> findAssociatedTreeses(String specieCode, Pageable pageable) {
+        LOGGER.debug("Fetching all associated treeses");
+
+        StringBuilder queryBuilder = new StringBuilder();
+        queryBuilder.append("treeSpecies.specieCode = '" + specieCode + "'");
+
+        return treesService.findAll(queryBuilder.toString(), pageable);
+    }
+
+    /**
+	 * This setter method should only be used by unit tests
+	 *
+	 * @param service TreesService instance
+	 */
+	protected void setTreesService(TreesService service) {
+        this.treesService = service;
+    }
+
+    /**
+	 * This setter method should only be used by unit tests
+	 *
+	 * @param service TreeEnumerationsService instance
+	 */
+	protected void setTreeEnumerationsService(TreeEnumerationsService service) {
+        this.treeEnumerationsService = service;
+    }
 
 }
 

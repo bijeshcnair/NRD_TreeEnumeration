@@ -1,11 +1,11 @@
 {
-  "enforceSecurity" : false,
+  "enforceSecurity" : true,
   "loginConfig" : {
     "type" : "PAGE",
     "pageName" : "Login",
     "sessionTimeout" : {
-      "type" : "DIALOG",
-      "pageName" : null,
+      "type" : "PAGE",
+      "pageName" : "Login",
       "timeoutValue" : 30
     }
   },
@@ -19,7 +19,7 @@
     "enforceXssSecurity" : false,
     "policyFile" : null,
     "xssFilterStrategy" : "NONE",
-    "policyType" : null
+    "policyType" : "IMPORT"
   },
   "csrfConfig" : {
     "enforceCsrfSecurity" : true,
